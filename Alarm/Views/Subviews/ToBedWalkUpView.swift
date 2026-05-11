@@ -8,7 +8,7 @@ struct ToBedWalkUpView: View {
         VStack {
             CancelSaveAlarm(currentAlarmIndex: currentAlarmIndex, alarmModel: $alarmModel)
             
-            Text("Toggle Alarm")
+            AlarmToggleView(alarmEnabled: $alarmModel.alarmEnabled)
             
             Divider()
             
@@ -20,7 +20,7 @@ struct ToBedWalkUpView: View {
                       VStack(alignment: .leading) {
                             GrayedTextView(text: "start")
                           
-                          Text("Time Picker")
+                          TimePicker(time: $alarmModel.start, scale: 1.3)
                         }
                     }
                     
@@ -53,7 +53,7 @@ struct ToBedWalkUpView: View {
                         TimeOfDayIcon(date: alarmModel.start)
                             .font(.largeTitle)
                       VStack(alignment: .leading) {
-                          Text("Time Picker")
+                          TimePicker(time: $alarmModel.end, scale: 1.3)
                           
                           GrayedTextView(text: "end")
                         }
