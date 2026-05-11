@@ -1,24 +1,17 @@
-//
-//  ContentView.swift
-//  Alarm
-//
-//  Created by Marios Kanellopoulos on 11/5/26.
-//
-
 import SwiftUI
 
-struct ContentView: View {
+struct MainAlarmView: View {
     var body: some View {
         VStack {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text("Hello, Alarm")
         }
         .padding()
     }
 }
 
 #Preview {
-    ContentView()
+    MainAlarmView()
 }
