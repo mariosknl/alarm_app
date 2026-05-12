@@ -70,7 +70,11 @@ class LocalNotificationManager: NSObject, ObservableObject, UNUserNotificationCe
         }
         
         self.alarmViewModels = savedItems
-        
+    }
+    
+    func getPendingAlarms() async {
+        pendingAlarms = await notificationCenter
+            .pendingNotificationRequests()
     }
 }
 
