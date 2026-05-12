@@ -1,17 +1,36 @@
 import SwiftUI
 
 struct MainAlarmView: View {
+    @EnvironmentObject var lnManager: LocalNotificationManager
+    
+    @Environment(\.scenePhase) var scenePhase
     var body: some View {
         TabView {
-            ListOfTheAlarmsView(alarmViewModels: AlarmModel.DummyAlarmData())
-                .tabItem({
-                    Label("Alarms", systemImage: "alarm.fill")
-                })
-            
-            AboutView()
-                .tabItem({
-                    Label("About", systemImage: "info.circle.fill")
-                })
+            if lnManager.isAuthorized {
+                ListOfTheAlarmsView(alarmViewModels: AlarmModel.DummyAlarmData())
+                    .tabItem({
+                        Label("Alarms", systemImage: "alarm.fill")
+                    })
+                
+                AboutView()
+                    .tabItem({
+                        Label("About", systemImage: "info.circle.fill")
+                    })
+            } else {
+                EnableNotifications()
+            }
+        }
+        .ignoresSafeArea()
+        .task {
+            try? await lnManager
+                .requestAuthorization()
+        }
+        .onChange(of: scenePhase) {
+            if scenePhase == .active {
+                Task {
+                    await lnManager.getCurrentSettings()
+                }
+            }
         }
     }
 }

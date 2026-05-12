@@ -1,5 +1,6 @@
 import Foundation
-import NotificationCenter
+import UserNotifications
+import UIKit
 import Combine
 
 @MainActor
@@ -8,10 +9,12 @@ class LocalNotificationManager: NSObject, ObservableObject, UNUserNotificationCe
     @Published var isAuthorized = false
     
     func requestAuthorization() async throws {
-        try await notificationCenter
+        isAuthorized = try await notificationCenter
             .requestAuthorization(options: [
                 .sound, .badge, .alert
             ])
+        
+        await getCurrentSettings()
     }
     
     func getCurrentSettings() async {

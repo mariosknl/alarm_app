@@ -7,7 +7,7 @@ struct SplashScreenView: View {
     
     var body: some View {
         if isActive {
-            Text("Go to Main View")
+            MainAlarmView()
         } else {
             ZStack {
                 FourCoolCircles(
