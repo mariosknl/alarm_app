@@ -76,5 +76,19 @@ class LocalNotificationManager: NSObject, ObservableObject, UNUserNotificationCe
         pendingAlarms = await notificationCenter
             .pendingNotificationRequests()
     }
+    
+    func schedult(localNotification: AlarmModel) async {
+        let content = UNMutableNotificationContent()
+        content.body = NSLocalizedString(localNotification.body, comment: "")
+        
+        content.sound = customSound(soundName: localNotification.sound)
+    }
+    
+    func customSound(soundName: Sounds, fileExtension: String = "") -> UNNotificationSound? {
+        let period = fileExtension.isEmpty ? "" : "."
+        let filename = "\(soundName.rawValue)\(period)\(fileExtension)"
+        
+        return UNNotificationSound(named: UNNotificationSoundName(rawValue: filename))
+    }
 }
 
