@@ -106,5 +106,18 @@ class LocalNotificationManager: NSObject, ObservableObject, UNUserNotificationCe
         
         return UNNotificationSound(named: UNNotificationSoundName(rawValue: filename))
     }
+    
+    func removeRequest(id: String) {
+        notificationCenter
+            .removeDeliveredNotifications(withIdentifiers: [id])
+        
+        if let index = pendingAlarms.firstIndex(
+            where: {
+                $0.identifier == id
+            }) {
+            pendingAlarms.remove(at: index)
+        }
+            
+    }
 }
 

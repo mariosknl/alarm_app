@@ -51,8 +51,8 @@ struct ListOfTheAlarmsView: View {
     func deleteMe(offsets: IndexSet) {
         // Remove from pending alarms
         for index in offsets {
-            // TODO: Remove request for given id
-            print("remove request from \(lnManager.alarmViewModels[index].id)")
+            lnManager
+                .removeRequest(id: lnManager.alarmViewModels[index].id)
         }
         
         // Remove from the alarmViewModels
