@@ -1,27 +1,32 @@
 import SwiftUI
 
 struct ListOfTheAlarmsView: View {
-    var alarmViewModels: [AlarmModel]
+//    var alarmViewModels: [AlarmModel]
+    
+    @EnvironmentObject var lnManager: LocalNotificationManager
+    
+    @State var isActive = false
+    @State var currentIndex: Int? = nil
     
     var body: some View {
         NavigationStack {
             ZStack {
                 List {
-                    ForEach(0..<alarmViewModels.count, id: \.self) { i in
-                        let alarmModel = alarmViewModels[i]
+                    ForEach(lnManager.alarmViewModels.indices, id: \.self) { i in
                         
-                        NavigationLink(
-                            destination: {
-                                MainAddEditAlarmView(currentAlarmIndex: i, alarmModel: alarmModel)
-                            },
-                            label: {
-                                AlarmRowView(model: alarmModel, i: i)}
-                        )
+                        Button(action: {
+                            currentIndex = i
+                            isActive.toggle()
+                        }, label: {
+                            AlarmRowView(model: lnManager.alarmViewModels[i], i: i)
+                                .padding(.vertical)
+                        })
                     }
+                    .onDelete(perform: deleteMe)
                 }
                 
                 FourCoolCircles()
-                    .opacity(0.2)
+                    .opacity(0.3)
             }
             .navigationTitle("Alarm List")
             .toolbar {
@@ -42,10 +47,20 @@ struct ListOfTheAlarmsView: View {
             }
         }
     }
+    
+    func deleteMe(offsets: IndexSet) {
+        // Remove from pending alarms
+        for index in offsets {
+            // TODO: Remove request for given id
+            print("remove request from \(lnManager.alarmViewModels[index].id)")
+        }
+        
+        // TODO:Next remove from the alarmViewModels
+        print("Removing from alarmViewModels")
+    }
 }
 
 #Preview {
-    ListOfTheAlarmsView(
-        alarmViewModels: AlarmModel.DummyAlarmData()
-    )
+    ListOfTheAlarmsView()
+    .environmentObject(LocalNotificationManager())
 }

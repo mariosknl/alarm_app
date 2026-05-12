@@ -81,8 +81,14 @@ struct ToBedWalkUpView: View {
 }
 
 #Preview {
-    ToBedWalkUpView(
-        currentAlarmIndex: nil,
-        alarmModel: .DefaultAlarm()
-    )
+    ZStack {
+        Color
+            .gray
+            .opacity(0.3)
+            .ignoresSafeArea()
+        ToBedWalkUpView(
+            currentAlarmIndex: nil,
+            alarmModel: .DefaultAlarm()
+        )
+    }
 }
