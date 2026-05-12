@@ -8,6 +8,18 @@ class LocalNotificationManager: NSObject, ObservableObject, UNUserNotificationCe
     let notificationCenter = UNUserNotificationCenter.current()
     @Published var isAuthorized = false
     
+    // Store a list of notifications/alarms
+    @Published var pendingAlarms: [UNNotificationRequest] = []
+    
+    // View Model for the AlarmModel
+    @Published var alarmViewModels: [AlarmModel] = [] {
+        didSet {
+            saveItems()
+        }
+    }
+    
+    let itemKey = "Alarm List"
+    
     func requestAuthorization() async throws {
         isAuthorized = try await notificationCenter
             .requestAuthorization(options: [
@@ -31,6 +43,34 @@ class LocalNotificationManager: NSObject, ObservableObject, UNUserNotificationCe
                 }
             }
         }
+    }
+    
+    // save state for the alarm view model
+    func saveItems() {
+        if let encodeData = try? JSONEncoder()
+            .encode(alarmViewModels) {
+                UserDefaults
+                .standard
+                .set(encodeData, forKey: itemKey)
+            }
+    }
+    
+    override init() {
+        super.init()
+        // TODO: Want alarm to go off when app is also active
+        
+        // Alarm view model - persistence
+        guard let data = UserDefaults
+            .standard
+            .data(forKey: itemKey),
+              let savedItems = try? JSONDecoder()
+            .decode([AlarmModel].self, from: data)
+        else {
+            return
+        }
+        
+        self.alarmViewModels = savedItems
+        
     }
 }
 
