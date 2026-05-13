@@ -26,7 +26,11 @@ struct ListOfTheAlarmsView: View {
                         .onDelete(perform: deleteMe)
                     }
                     
-                    Text("buttons")
+                    SelectView(
+                        width: 50,
+                        addEditViewType: $addEditViewType,
+                        isActive: $isActive
+                    )
                 }
                 FourCoolCircles()
                     .opacity(0.3)
