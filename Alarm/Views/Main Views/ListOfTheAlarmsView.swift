@@ -7,26 +7,27 @@ struct ListOfTheAlarmsView: View {
     
     @State var isActive = false
     @State var currentIndex: Int? = nil
-//    @State var addEditViewType: AddEditViewType = .standard
-    @State var addEditViewType: AddEditViewType = .circular
+    @State var addEditViewType: AddEditViewType = .standard
+//    @State var addEditViewType: AddEditViewType = .circular
     
     var body: some View {
         NavigationStack {
             ZStack {
-                List {
-                    ForEach(lnManager.alarmViewModels.indices, id: \.self) { i in
-                        
-                        Button(action: {
-                            currentIndex = i
-                            isActive.toggle()
-                        }, label: {
-                            AlarmRowView(model: lnManager.alarmViewModels[i], i: i)
-                                .padding(.vertical)
-                        })
+                VStack {
+                    List {
+                        ForEach(lnManager.alarmViewModels.indices, id: \.self) { i in
+                            AlarmRowViewButton(
+                                model: lnManager.alarmViewModels[i],
+                                i: i,
+                                currentIndex: $currentIndex,
+                                isActive: $isActive
+                            )
+                        }
+                        .onDelete(perform: deleteMe)
                     }
-                    .onDelete(perform: deleteMe)
+                    
+                    Text("buttons")
                 }
-                
                 FourCoolCircles()
                     .opacity(0.3)
             }

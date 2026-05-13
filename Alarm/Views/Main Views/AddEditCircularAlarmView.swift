@@ -15,7 +15,7 @@ struct AddEditCircularAlarmView: View {
             
             CircularTimeView(
                 currentAlarmIndex: currentAlarmIndex,
-                alarmModel: alarmModel,
+                alarmModel: $alarmModel,
                 size: screenWidth / 2
             )
             
