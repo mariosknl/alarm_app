@@ -69,8 +69,20 @@ struct ListOfTheAlarmsView: View {
 
 struct wrapAddEditAlarmView: View {
     @Binding var currentAlarmIndex: Int?
+    @EnvironmentObject var lnManager: LocalNotificationManager
+    
     var body: some View {
-        AddEditAlarmView(currentAlarmIndex: currentAlarmIndex)
+        if let currentAlarmIndex = currentAlarmIndex {
+            AddEditAlarmView(
+                currentAlarmIndex: currentAlarmIndex,
+                alarmModel: lnManager.alarmViewModels[currentAlarmIndex]
+            )
+        } else {
+            AddEditAlarmView(
+                currentAlarmIndex: currentAlarmIndex,
+                alarmModel: .DefaultAlarm()
+            )
+        }
     }
 }
 

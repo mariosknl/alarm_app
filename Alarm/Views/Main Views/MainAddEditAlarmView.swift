@@ -9,7 +9,8 @@ struct MainAddEditAlarmView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             AddEditAlarmView(
-                currentAlarmIndex: currentAlarmIndex
+                currentAlarmIndex: currentAlarmIndex,
+                alarmModel: alarmModel
             )
             .tag("One")
             
