@@ -2,7 +2,8 @@ import SwiftUI
 
 struct AddEditAlarmView: View {
     let currentAlarmIndex: Int?
-    @State var alarmModel: AlarmModel
+    @EnvironmentObject var lnManager: LocalNotificationManager
+    
     @State private var showYouDidItView: Bool = true
     
     var body: some View {
@@ -16,11 +17,17 @@ struct AddEditAlarmView: View {
                     YouDidItView()
                 }
                 
-                ToBedWalkUpView(
-                    currentAlarmIndex: currentAlarmIndex,
-                    alarmModel: alarmModel
-                )
-                
+                if let currentAlarmIndex = currentAlarmIndex {
+                    ToBedWalkUpView(
+                        currentAlarmIndex: currentAlarmIndex,
+                        alarmModel: lnManager.alarmViewModels[currentAlarmIndex]
+                    )
+                } else {
+                    ToBedWalkUpView(
+                        currentAlarmIndex: currentAlarmIndex,
+                        alarmModel: .DefaultAlarm()
+                    )
+                }
             }
         }
         .onAppear {
@@ -36,7 +43,7 @@ struct AddEditAlarmView: View {
 
 #Preview {
     AddEditAlarmView(
-        currentAlarmIndex: nil,
-        alarmModel: .DefaultAlarm()
-        )
+        currentAlarmIndex: nil)
+    .environmentObject(LocalNotificationManager())
+        
 }

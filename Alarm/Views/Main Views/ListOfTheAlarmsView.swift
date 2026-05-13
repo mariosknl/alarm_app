@@ -29,6 +29,11 @@ struct ListOfTheAlarmsView: View {
                     .opacity(0.3)
             }
             .navigationTitle("Alarm List")
+            .sheet(
+                isPresented: $isActive
+            ) {
+                AddEditAlarmView(currentAlarmIndex: currentIndex)
+            }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink(destination: {
