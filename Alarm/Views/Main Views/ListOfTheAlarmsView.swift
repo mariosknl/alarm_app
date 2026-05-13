@@ -32,7 +32,7 @@ struct ListOfTheAlarmsView: View {
             .sheet(
                 isPresented: $isActive
             ) {
-                AddEditAlarmView(currentAlarmIndex: currentIndex)
+                wrapAddEditAlarmView(currentAlarmIndex: $currentIndex)
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -63,6 +63,13 @@ struct ListOfTheAlarmsView: View {
         // Remove from the alarmViewModels
         lnManager.alarmViewModels
             .remove(atOffsets: offsets)
+    }
+}
+
+struct wrapAddEditAlarmView: View {
+    @Binding var currentAlarmIndex: Int?
+    var body: some View {
+        AddEditAlarmView(currentAlarmIndex: currentAlarmIndex)
     }
 }
 
